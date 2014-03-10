@@ -1,7 +1,7 @@
 
-import expressionevaluator.BinaryOperation;
-import expressionevaluator.Constant;
-import expressionevaluator.Operation;
+import evaluator.BinaryOperation;
+import evaluator.Constant;
+import evaluator.Operation;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -64,7 +64,7 @@ public class ExpressionEvaluatorTest {
 
     @Test
     public void subDoubleDoubleExpressionTest() {
-        Assert.assertEquals(-0.6, (double) new Operation("sub", new BinaryOperation(new Constant(2.2), new Constant(2.8))).evaluator(),0.01);
+        Assert.assertEquals(-0.6, (double) new Operation("sub", new BinaryOperation(new Constant(2.2), new Constant(2.8))).evaluator(),0.1);
         Assert.assertEquals(-10.2, new Operation("sub", new BinaryOperation(new Constant(5.4), new Constant(15.6))).evaluator());
     }
 }

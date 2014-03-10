@@ -1,5 +1,7 @@
 package operation;
 
+import evaluator.BinaryOperation;
+
 public interface Operator {
-    public Object calculate(Object one, Object two);
+    public Object calculate(BinaryOperation numbers);
 }
