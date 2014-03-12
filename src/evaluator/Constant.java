@@ -1,10 +1,10 @@
 package evaluator;
 
-public class Constant implements Expression {
+public class Constant<Type> implements Expression {
 
-    private final Object constant;
+    private final Type constant;
 
-    public Constant(Object constant) {
+    public Constant(Type constant) {
         this.constant = constant;
     }
     

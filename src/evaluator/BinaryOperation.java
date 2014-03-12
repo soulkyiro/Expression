@@ -1,28 +1,31 @@
 package evaluator;
 
-public class BinaryOperation {
+import evaluator.operation.Operator;
 
-    private Expression left;
-    private Expression rigth;
+public abstract class BinaryOperation implements Expression{
+
+    private final Expression left;
+    private final Expression rigth;
 
     public BinaryOperation(Expression left, Expression rigth) {
         this.left = left;
         this.rigth = rigth;
     }
 
-    public Expression getLeft() {
-        return left;
+    public Object getLeft() {
+        return left.evaluator();
     }
 
-    public Expression getRigth() {
-        return rigth;
+    public Object getRight() {
+        return rigth.evaluator();
+    }
+    
+    private Operator getOperator(){
+         return new Factory().builder(this.getClass().getSimpleName(), this.getLeft(), this.getRight());
     }
 
-    public void setLeft(Expression left) {
-        this.left = left;
-    }
-
-    public void setRigth(Expression rigth) {
-        this.rigth = rigth;
+    @Override
+    public Object evaluator() {
+        return getOperator().evaluator(this.getLeft(),this.getRight());
     }
 }

@@ -1,6 +1,6 @@
 package evaluator;
 
-import operation.Operator;
+import evaluator.operation.Operator;
 
 public class Operation implements Expression{
 
@@ -14,11 +14,11 @@ public class Operation implements Expression{
 
     @Override
     public Object evaluator() {
-        return defineOperation().calculate(numbers);
+        return defineOperation().evaluator(numbers.getLeft(),numbers.getRight());
     }
 
     private Operator defineOperation() {
-        return (Operator) new Factory().builder(enumerator, numbers.getLeft(),numbers.getRigth());
+        return new Factory().builder(enumerator, numbers.getLeft(),numbers.getRight());
     }
 
 }
