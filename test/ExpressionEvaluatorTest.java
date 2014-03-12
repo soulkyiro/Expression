@@ -1,4 +1,3 @@
-
 import evaluator.Addition;
 import evaluator.Constant;
 import evaluator.Subtract;

@@ -7,7 +7,7 @@ public class Constant<Type> implements Expression {
     public Constant(Type constant) {
         this.constant = constant;
     }
-    
+
     @Override
     public Object evaluator() {
         return constant;
