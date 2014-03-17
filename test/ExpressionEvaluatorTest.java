@@ -1,3 +1,4 @@
+import evaluator.Multiply;
 import evaluator.Addition;
 import evaluator.Constant;
 import evaluator.Subtract;
@@ -65,5 +66,10 @@ public class ExpressionEvaluatorTest {
     public void subDoubleDoubleExpressionTest() {
         assertEquals(-0.6, (double) new Subtract(new Constant(2.2), new Constant(2.8)).evaluator(), 0.1);
         assertEquals(-10.2, new Subtract(new Constant(5.4), new Constant(15.6)).evaluator());
+    }
+    
+    @Test
+    public void multDoubleDoubleExpressionTest(){
+        assertEquals(4.4, (double) new Multiply(new Constant(2.2), new Constant(2.2)).evaluator(), 0.1);
     }
 }
