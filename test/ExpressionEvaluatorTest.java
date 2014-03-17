@@ -70,6 +70,6 @@ public class ExpressionEvaluatorTest {
     
     @Test
     public void multDoubleDoubleExpressionTest(){
-        assertEquals(4.4, (double) new Multiply(new Constant(2.2), new Constant(2.2)).evaluator(), 0.1);
+        assertEquals(4.0, (double) new Multiply(new Constant(2.0), new Constant(2.0)).evaluator(), 0.1);
     }
 }
