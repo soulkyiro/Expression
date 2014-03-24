@@ -1,7 +1,8 @@
 
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import parser.Token;
+import parser.Parser;
 import parser.Token.Operator;
 import parser.Token.Value;
 public class ParserTest {
@@ -9,11 +10,11 @@ public class ParserTest {
     @Test
     public void shuttingYardParserTest(){
         Token[] token = {
-                new Value("5"),
+                new Value(5),
                 new Operator("+"),
-                new Value("5")
+                new Value(5)
         };
-        assertArrayEquals(10, new Parser().parse(token));
+        assertEquals(10,(int) new Parser().parse(token).evaluator());
         
 
     }

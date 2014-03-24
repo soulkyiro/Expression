@@ -8,6 +8,9 @@ public class Token{
         public Operator(String symbol) {
             this.symbol = symbol;
         }
+        public String getOperator(){
+            return symbol;
+        }
     }
     
     public static class Value <Type> extends Token{
@@ -15,6 +18,10 @@ public class Token{
 
         public Value(Type symbol) {
             this.symbol = symbol;
+        }
+        
+        public Type getValue(){
+            return symbol;
         }
     }
 }
