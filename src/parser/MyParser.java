@@ -6,13 +6,13 @@ import java.util.Stack;
 import parser.Token.Operator;
 import parser.Token.Value;
 
-public class Parser {
+public class MyParser {
 
     private Stack operatorStack;
     private Stack outputStack;
     HashMap<String,String> operationDictionary;
 
-    public Parser() {
+    public MyParser() {
         operatorStack = new Stack();
         outputStack = new Stack();
         operationDictionary = new OperationDictionary();
