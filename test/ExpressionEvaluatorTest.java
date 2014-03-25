@@ -77,10 +77,12 @@ public class ExpressionEvaluatorTest {
     public void multDoubleIntegerExpressionTest(){
         assertEquals(4.4, (double) new Multiply(new Constant(2.2), new Constant(2)).evaluator(), 0.1);
     }
+    
     @Test
     public void multIntegerDoubleExpressionTest(){
         assertEquals(8.4, (double) new Multiply(new Constant(2), new Constant(4.2)).evaluator(), 0.1);
     }
+    
     @Test
     public void multIntegerIntegerExpressionTest(){
         assertEquals(4, (int) new Multiply(new Constant(2), new Constant(2)).evaluator(), 0.1);
