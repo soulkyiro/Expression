@@ -1,8 +1,8 @@
-package evaluator.operation.subtract;
+package evaluator.operation.substract;
 
 import evaluator.operation.Operator;
 
-public class SubtractDoubleInteger implements Operator {
+public class SubstractDoubleInteger implements Operator {
 
     @Override
     public Object evaluator(Object left, Object right) {
