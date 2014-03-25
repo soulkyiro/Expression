@@ -1,30 +1,44 @@
 package parser;
 
+import evaluator.Factory;
+import java.util.HashMap;
 import java.util.Stack;
+import parser.Token.Operator;
+import parser.Token.Value;
 
-public class parser {
+public class Parser {
 
     private Stack operatorStack;
     private Stack outputStack;
+    HashMap<String,String> operationDictionary;
 
-    public parser() {
+    public Parser() {
         operatorStack = new Stack();
         outputStack = new Stack();
+        operationDictionary = new OperationDictionary();
     }
 
-    public void parse(Token[] token) {
+    public Object parse(Token[] token) {
         for (Token t : token) {
             if (isOperator(t)) {
-                operatorStack.add(t);
+                operatorStack.push(t);
             }
             if (isNumber(t)) {
-                outputStack.add(t);
+                outputStack.push(t);
             }
         }
+        outputStack.push(operatorStack.pop());
+        
+        Operator o = (Operator) outputStack.pop();
+        Value left = (Value) outputStack.pop();
+        Value right = (Value) outputStack.pop();
+        
+        return new Factory().builder(operationDictionary.get(o.getOperator()),left.getValue(),right.getValue()).evaluator(left.getValue(), right.getValue());
     }
 
     public boolean isOperator(Token t) {
-        if ("Operator".equals(t.getClass().toString())) {
+        String s = t.getClass().getSimpleName();
+        if (t instanceof Operator) {
             return true;
         } else {
             return false;
@@ -32,15 +46,12 @@ public class parser {
     }
 
     public boolean isNumber(Token t) {
-        if ("Value<>".equals(t.getClass().toString())) {
+        String s = t.getClass().getSimpleName();
+        if (t instanceof Value) {
             return true;
         } else {
             return false;
         }
     }
-
-    public void isTockenFuntion() {
-
-    }
-
 }
+
