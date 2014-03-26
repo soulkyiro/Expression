@@ -8,67 +8,78 @@ import parser.Token.Value;
 
 public class MyParser {
 
-    private Stack operatorStack;
-    private Stack outputStack;
-    HashMap<String,String> operationDictionary;
+    private Stack<Token> operatorStack;
+    private Stack<Token> outputStack;
+    private Stack<Token> inputStack;
+    HashMap<String, String> operationDictionary;
 
     public MyParser() {
         operatorStack = new Stack();
         outputStack = new Stack();
+        inputStack = new Stack();
         operationDictionary = new OperationDictionary();
     }
 
     public Object parse(Token[] tokens) {
-        Stack<Token> initialStack = new Stack();
-        Value total = null;
         fillStacks(tokens);
-        
-        initialStack = inverseStack(outputStack);
-        
-        while(!initialStack.isEmpty()){
-            Token token = initialStack.pop();
-            if(!isOperator(token))
-                operatorStack.push(token);
-            else{
-                Token.Operator o = (Token.Operator) token;
-                Value left = (Value)operatorStack.pop();
-                Value rigth = (Value)operatorStack.pop();
-                Operator operator = new Factory().builder(operationDictionary.get(o.getOperator()), left.getValue(), rigth.getValue());
-                operatorStack.push(new Value(operator.evaluator(left.getValue(), rigth.getValue())));
-            }  
+        inputStack = inverseStack(outputStack);
+        outputStack.clear();
+
+        while (!inputStack.isEmpty()) {
+            Token token = inputStack.pop();
+            ShuntingYard(token);
         }
-        Value e = (Value)operatorStack.pop();
+        Value e = (Value) outputStack.pop();
         return e.getValue();
+    }
+
+    private void ShuntingYard(Token token) {
+        if (!isOperator(token)) {
+            outputStack.push(token);
+        } else {
+            Value left = (Value) outputStack.pop();
+            Value rigth = (Value) outputStack.pop();
+            Operator operator = getOperator((Token.Operator) token, left, rigth);
+            outputStack.push(new Value(operator.evaluator(left.getValue(), rigth.getValue())));
+        }
+    }
+
+    private Operator getOperator(Token.Operator o, Value left, Value rigth) {
+        return new Factory().builder(operationDictionary.get(o.getOperator()), left.getValue(), rigth.getValue());
     }
 
     private void fillStacks(Token[] token) {
         for (Token t : token) {
-            if (isOperator(t)) {
-                operatorStack.push(t);
-            }else{
-                outputStack.push(t);
-            }
+            setTokenStack(t);
         }
-        while(!operatorStack.isEmpty()){
+        EmptyOperatorsStackInOutputStack();
+    }
+
+    private void EmptyOperatorsStackInOutputStack() {
+        while (!operatorStack.isEmpty()) {
             outputStack.push(operatorStack.pop());
+        }
+    }
+
+    private void setTokenStack(Token t) {
+        if (isOperator(t)) {
+            operatorStack.push(t);
+        } else {
+            outputStack.push(t);
         }
     }
 
     private Stack inverseStack(Stack stack) {
         Stack newStack = new Stack();
-        
-        while(!stack.isEmpty()){
+
+        while (!stack.isEmpty()) {
             newStack.push(stack.pop());
         }
+
         return newStack;
     }
 
     private boolean isOperator(Token t) {
         return t instanceof Token.Operator;
     }
-
-    private boolean isNumber(Token t) {
-        return t instanceof Value;
-    }
 }
-

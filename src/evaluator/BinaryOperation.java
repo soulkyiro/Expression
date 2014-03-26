@@ -5,7 +5,7 @@ import evaluator.operation.Operator;
 public abstract class BinaryOperation implements Expression {
 
     private final Expression left;
-    private final Expression rigth;
+    private final Expression rigth; 
 
     public BinaryOperation(Expression left, Expression rigth) {
         this.left = left;
