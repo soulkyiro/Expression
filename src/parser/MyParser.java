@@ -1,9 +1,9 @@
 package parser;
 
 import evaluator.Factory;
+import evaluator.operation.Operator;
 import java.util.HashMap;
 import java.util.Stack;
-import parser.Token.Operator;
 import parser.Token.Value;
 
 public class MyParser {
@@ -18,40 +18,57 @@ public class MyParser {
         operationDictionary = new OperationDictionary();
     }
 
-    public Object parse(Token[] token) {
+    public Object parse(Token[] tokens) {
+        Stack<Token> initialStack = new Stack();
+        Value total = null;
+        fillStacks(tokens);
+        
+        initialStack = inverseStack(outputStack);
+        
+        while(!initialStack.isEmpty()){
+            Token token = initialStack.pop();
+            if(!isOperator(token))
+                operatorStack.push(token);
+            else{
+                Token.Operator o = (Token.Operator) token;
+                Value left = (Value)operatorStack.pop();
+                Value rigth = (Value)operatorStack.pop();
+                Operator operator = new Factory().builder(operationDictionary.get(o.getOperator()), left.getValue(), rigth.getValue());
+                operatorStack.push(new Value(operator.evaluator(left.getValue(), rigth.getValue())));
+            }  
+        }
+        Value e = (Value)operatorStack.pop();
+        return e.getValue();
+    }
+
+    private void fillStacks(Token[] token) {
         for (Token t : token) {
             if (isOperator(t)) {
                 operatorStack.push(t);
-            }
-            if (isNumber(t)) {
+            }else{
                 outputStack.push(t);
             }
         }
-        outputStack.push(operatorStack.pop());
-        
-        Operator o = (Operator) outputStack.pop();
-        Value left = (Value) outputStack.pop();
-        Value right = (Value) outputStack.pop();
-        
-        return new Factory().builder(operationDictionary.get(o.getOperator()),left.getValue(),right.getValue()).evaluator(left.getValue(), right.getValue());
-    }
-
-    public boolean isOperator(Token t) {
-        String s = t.getClass().getSimpleName();
-        if (t instanceof Operator) {
-            return true;
-        } else {
-            return false;
+        while(!operatorStack.isEmpty()){
+            outputStack.push(operatorStack.pop());
         }
     }
 
-    public boolean isNumber(Token t) {
-        String s = t.getClass().getSimpleName();
-        if (t instanceof Value) {
-            return true;
-        } else {
-            return false;
+    private Stack inverseStack(Stack stack) {
+        Stack newStack = new Stack();
+        
+        while(!stack.isEmpty()){
+            newStack.push(stack.pop());
         }
+        return newStack;
+    }
+
+    private boolean isOperator(Token t) {
+        return t instanceof Token.Operator;
+    }
+
+    private boolean isNumber(Token t) {
+        return t instanceof Value;
     }
 }
 

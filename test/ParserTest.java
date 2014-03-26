@@ -14,9 +14,21 @@ public class ParserTest {
                 new Operator("+"),
                 new Value(5)
         };
-        assertEquals(10,(int) new MyParser().parse(token));
-       
+        assertEquals(10,(int) new MyParser().parse(token));  
     }
+    
+    @Test
+    public void additionadditionParserTest() {
+        Token[] token1 = {
+            new Value(5),
+            new Operator("+"),
+            new Value(5),
+            new Operator("+"),
+            new Value(5)
+        };
+        assertEquals(15,(int) new MyParser().parse(token1));
+    }
+    
     @Test
     public void substractParserTest(){
         Token[] token = {

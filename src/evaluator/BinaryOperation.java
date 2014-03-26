@@ -23,9 +23,10 @@ public abstract class BinaryOperation implements Expression {
     private Operator getOperator() {
         return new Factory().builder(this.getClass().getSimpleName(), this.getLeft(), this.getRight());
     }
-
+    
     @Override
     public Object evaluator() {
-        return getOperator().evaluator(this.getLeft(), this.getRight());
+        return getOperator().evaluator(this.getLeft(),this.getRight());
     }
+
 }
